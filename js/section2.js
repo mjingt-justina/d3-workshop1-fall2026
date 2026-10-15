@@ -31,7 +31,20 @@ d3.select('#demo-2')
 
 // TODO: sample electricity prices instead of gas and create rectangles instead of circles; make the color of the rectangles green;
 const electricityPrices = sampledData.map(item => parseFloat(item.elec));
-// YOUR CODE GOES HERE 
+
+d3.select('#demo-2')
+    .append('svg')
+    .attr('width', 400)
+    .attr('height', 150)
+    .selectAll('rect')
+    .data(electricityPrices)
+    .join('rect')
+    .attr('x', (d, i) => i * 60 + 10)
+    .attr('y', d => 150 - d * 500)
+    .attr('width', 40)
+    .attr('height', d => d * 500)
+    .attr('fill', 'green');
+
 
 // Remember that circle needs radius (r) and center (cx, cy) to create it,
 // while rectangles need x, y, width, and height. You can use the electricity price to determine the height of the rectangle and set a fixed width.

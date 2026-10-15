@@ -17,7 +17,7 @@
 d3.select('#demo-1')
     .style('color', 'blue')
     .style('font-size', '20px')
-    .text('This text was changed by D3!');
+    .text('Mengtong Jing');
 
 // TODO: change the text above to add your name
 // TODO: change the color to something else you like // keep in mind color contrast
@@ -26,7 +26,7 @@ d3.select('#demo-1')
 // Create and append new elements
 d3.select('#demo-1')
     .append('p')
-    .text('This paragraph was created by D3')
-    .style('background-color', 'lightgray');
+    .text('My favorite food is fried chicken!')
+    .style('background-color', 'lightpink');
 
 // TODO: append a new element with your favorite food and style it with a different background color

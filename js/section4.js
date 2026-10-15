@@ -106,19 +106,63 @@ const hBarMargin = { top: 30, right: 30, bottom: 80, left: 150 };
 const hBarWidth = 400 - hBarMargin.left - hBarMargin.right;
 const hBarHeight = 500 - hBarMargin.top - hBarMargin.bottom;
 
-// Create SVG for horizontal bar chart
 
+ // Create SVG for horizontal bar chart
+const hBarSvg = d3.select('#demo-4')
+    .append('svg')
+    .attr('viewBox', `0 0 ${hBarWidth + hBarMargin.left + hBarMargin.right} ${hBarHeight + hBarMargin.top + hBarMargin.bottom}`)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .append('g')
+    .attr('transform', `translate(${hBarMargin.left},${hBarMargin.top})`);
 
-// Create scales for the horizontal bar chart
+// Create scales
+const xGasScale = d3.scaleLinear()
+    .domain([0, d3.max(top15Gas, d => d.gas)])
+    .range([0, hBarWidth]);
 
+const yGasScale = d3.scaleBand()
+    .domain(top15Gas.map(d => d.state))
+    .range([0, hBarHeight])
+    .padding(0.25);
 
-// Create axes and append them to the svg
+// Create axes
+hBarSvg.append('g')
+    .attr('transform', `translate(0, ${hBarHeight})`)
+    .call(d3.axisBottom(xGasScale));
 
+hBarSvg.append('g')
+    .call(d3.axisLeft(yGasScale));
 
-// Create and append bars to the chart
-
+// Create horizontal bars
+hBarSvg.selectAll('rect')
+    .data(top15Gas)
+    .join('rect')
+    .attr('x', 0)
+    .attr('y', d => yGasScale(d.state))
+    .attr('width', d => xGasScale(d.gas))
+    .attr('height', yGasScale.bandwidth())
+    .attr('fill', 'orange');
 
 // Chart title
-
+hBarSvg.append('text')
+    .attr('x', hBarWidth / 2)
+    .attr('y', -10)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '16px')
+    .style('font-weight', 'bold')
+    .text('Top 15 States by Gas Price');
 
 // X axis label
+hBarSvg.append('text')
+    .attr('x', hBarWidth / 2)
+    .attr('y', hBarHeight + 50)
+    .attr('text-anchor', 'middle')
+    .text('Gas Price');
+
+// Y axis label
+hBarSvg.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('x', -hBarHeight / 2)
+    .attr('y', -135)
+    .attr('text-anchor', 'middle')
+    .text('State');
